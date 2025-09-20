@@ -103,6 +103,31 @@
         .min-h-0 {
             min-height: 0px !important;
         }
+        
+        /* Ajustes específicos para mobile */
+        @media (max-width: 640px) {
+            body {
+                padding: 0;
+            }
+            
+            #chat-container {
+                padding-right: 8px;
+            }
+            
+            .space-y-4 > * + * {
+                margin-top: 12px;
+            }
+            
+            /* Reduz padding dos botões em mobile */
+            button {
+                padding: 8px 16px !important;
+            }
+            
+            /* Ajusta altura mínima do textarea em mobile */
+            textarea {
+                min-height: 80px !important;
+            }
+        }
         .chat-bubble-bot {
             animation: slideInUp 0.5s ease-out;
         }
@@ -173,16 +198,16 @@
 </head>
 <body class="antialiased">
 
-    <div class="w-full h-screen p-2 sm:p-4 flex justify-center overflow-hidden">
-        <div id="main-grid" class="grid gap-8 justify-items-center lg:grid-cols-2 lg:gap-16 h-full w-full max-w-7xl overflow-hidden">
+    <div class="w-full h-screen p-1 sm:p-4 flex justify-center overflow-hidden">
+        <div id="main-grid" class="grid gap-4 sm:gap-8 justify-items-center lg:grid-cols-2 lg:gap-16 h-full w-full max-w-7xl overflow-hidden">
             
             <!-- Coluna do Formulário -->
             <div id="chat-column" class="w-full max-w-4xl h-full flex flex-col overflow-hidden">
-                <h2 class="text-2xl font-semibold mb-6 pb-3 text-card-foreground flex items-center gap-3 flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7 text-primary"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.455.09-.934.09-1.425v-2.288a4.5 4.5 0 0 1 .64-2.288Z" /></svg>
+                <h2 class="text-xl sm:text-2xl font-semibold mb-3 sm:mb-6 pb-2 sm:pb-3 text-card-foreground flex items-center gap-3 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 text-primary"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.455.09-.934.09-1.425v-2.288a4.5 4.5 0 0 1 .64-2.288Z" /></svg>
                     Preencha sua Solicitação
                 </h2>
-                <div class="bg-card p-4 sm:p-6 rounded-lg border border-border shadow-sm flex-1 flex flex-col overflow-hidden">
+                <div class="bg-card p-3 sm:p-6 rounded-lg border border-border shadow-sm flex-1 flex flex-col overflow-hidden">
                     <div id="chat-container" class="pr-2 space-y-4 overflow-y-auto flex-1 min-h-0 max-h-full">
                         <!-- Chat messages will be appended here -->
                     </div>
@@ -198,7 +223,7 @@
                             </div>
                         </div>
                     </div>
-                     <div id="input-container" class="mt-4 pt-4 border-t border-border flex-shrink-0">
+                     <div id="input-container" class="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-border flex-shrink-0">
                         <!-- Input fields will be appended here -->
                     </div>
                 </div>
