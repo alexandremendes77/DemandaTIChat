@@ -182,6 +182,28 @@
                 top: 0;
                 width: auto;
             }
+            
+            /* Ajustes específicos para a página de preview no mobile */
+            #preview-column .bg-card {
+                max-height: calc(100vh - 100px);
+            }
+            
+            #preview-column .overflow-y-auto {
+                max-height: calc(100vh - 200px);
+                padding-bottom: 20px;
+            }
+            
+            #preview-column h2 {
+                margin-bottom: 8px !important;
+                padding-bottom: 8px !important;
+            }
+            
+            #sendEmailButton {
+                position: sticky;
+                bottom: 0;
+                z-index: 10;
+                margin-top: 12px !important;
+            }
         }
         
         /* Estilos gerais para inputs de data */
@@ -196,7 +218,6 @@
             border-color: var(--primary);
             outline: none;
             box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-        }
         }
         .chat-bubble-bot {
             animation: slideInUp 0.5s ease-out;
@@ -301,12 +322,12 @@
 
             <!-- Coluna do Preview -->
             <div id="preview-column" class="hidden w-full max-w-4xl h-full flex flex-col overflow-hidden">
-                 <h2 class="text-2xl font-semibold mb-6 pb-3 text-card-foreground flex items-center gap-3 flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7 text-primary"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0A2.25 2.25 0 013.75 7.5h16.5a2.25 2.25 0 012.25 2.25m-18.75 0h18.75v-1.5A2.25 2.25 0 0019.5 6h-15A2.25 2.25 0 002.25 8.25v1.5z" /></svg>
+                 <h2 class="text-xl sm:text-2xl font-semibold mb-3 sm:mb-6 pb-2 sm:pb-3 text-card-foreground flex items-center gap-3 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 text-primary"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0A2.25 2.25 0 013.75 7.5h16.5a2.25 2.25 0 012.25 2.25m-18.75 0h18.75v-1.5A2.25 2.25 0 0019.5 6h-15A2.25 2.25 0 002.25 8.25v1.5z" /></svg>
                     Preview da Solicitação
                 </h2>
-                 <div class="bg-card p-6 rounded-lg border border-border shadow-sm flex-1 flex flex-col overflow-hidden">
-                    <div class="overflow-y-auto flex-1">
+                 <div class="bg-card p-3 sm:p-6 rounded-lg border border-border shadow-sm flex-1 flex flex-col overflow-hidden">
+                    <div class="overflow-y-auto flex-1 pb-4">
                     <div id="previewContent" class="space-y-6">
                         <div>
                             <h3 class="text-md font-semibold text-primary">1. Identificação da Demanda</h3>
@@ -348,7 +369,7 @@
                         </div>
                     </div>
                     </div>
-                     <button id="sendEmailButton" class="w-full mt-6 bg-primary text-primary-foreground font-semibold py-2 px-4 rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-opacity flex items-center justify-center gap-2 flex-shrink-0">
+                     <button id="sendEmailButton" class="w-full mt-3 sm:mt-6 bg-primary text-primary-foreground font-semibold py-2 px-4 rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-opacity flex items-center justify-center gap-2 flex-shrink-0">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
                         </svg>
@@ -393,6 +414,216 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal de Dicas para Contexto -->
+    <div id="contextModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4">
+        <div class="bg-card w-full max-w-2xl rounded-lg shadow-xl p-6 relative">
+            <button id="closeContextModalBtn" class="absolute top-4 right-4 text-muted-foreground hover:text-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-xl font-bold text-card-foreground mb-4">📝 Como descrever sua situação</h2>
+            <div class="space-y-4 text-sm">
+                <div class="p-4 rounded-md border border-blue-200 bg-blue-50/50">
+                    <h3 class="font-semibold text-blue-800 flex items-center gap-2">❓ Qual problema você está enfrentando?</h3>
+                    <p class="text-blue-700 mt-1">Descreva o problema específico ou a necessidade que motivou esta solicitação.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-purple-200 bg-purple-50/50">
+                    <h3 class="font-semibold text-purple-800 flex items-center gap-2">🎯 Como isso impacta seu trabalho/departamento?</h3>
+                    <p class="text-purple-700 mt-1">Explique as consequências do problema na produtividade, qualidade ou resultados.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-green-200 bg-green-50/50">
+                    <h3 class="font-semibold text-green-800 flex items-center gap-2">⏰ Qual a frequência deste problema?</h3>
+                    <p class="text-green-700 mt-1">Indique se acontece diariamente, semanalmente, mensalmente ou em situações específicas.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-orange-200 bg-orange-50/50">
+                    <h3 class="font-semibold text-orange-800 flex items-center gap-2">👥 Quantas pessoas são afetadas?</h3>
+                    <p class="text-orange-700 mt-1">Informe o número de usuários, equipes ou departamentos impactados pelo problema.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Dicas para Objetivo -->
+    <div id="objetivoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4">
+        <div class="bg-card w-full max-w-2xl rounded-lg shadow-xl p-6 relative">
+            <button id="closeObjetivoModalBtn" class="absolute top-4 right-4 text-muted-foreground hover:text-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-xl font-bold text-card-foreground mb-4">🎯 Como definir seu objetivo</h2>
+            <div class="space-y-4 text-sm">
+                <div class="p-4 rounded-md border border-blue-200 bg-blue-50/50">
+                    <h3 class="font-semibold text-blue-800 flex items-center gap-2">🏆 Qual o resultado final desejado?</h3>
+                    <p class="text-blue-700 mt-1">Descreva claramente o que você quer que aconteça após a implementação da solução.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-green-200 bg-green-50/50">
+                    <h3 class="font-semibold text-green-800 flex items-center gap-2">✅ Como você saberá que o problema foi resolvido?</h3>
+                    <p class="text-green-700 mt-1">Defina critérios objetivos que indicarão que a solução está funcionando adequadamente.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-purple-200 bg-purple-50/50">
+                    <h3 class="font-semibold text-purple-800 flex items-center gap-2">📊 Quais métricas indicarão o sucesso?</h3>
+                    <p class="text-purple-700 mt-1">Identifique números, percentuais ou indicadores mensuráveis de melhoria (tempo, custo, qualidade, etc.).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Dicas para Requisitos Funcionais -->
+    <div id="reqFuncionaisModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4">
+        <div class="bg-card w-full max-w-2xl rounded-lg shadow-xl p-6 relative">
+            <button id="closeReqFuncionaisModalBtn" class="absolute top-4 right-4 text-muted-foreground hover:text-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-xl font-bold text-card-foreground mb-4">⚙️ Como definir requisitos funcionais</h2>
+            <div class="space-y-4 text-sm">
+                <div class="p-4 rounded-md border border-blue-200 bg-blue-50/50">
+                    <h3 class="font-semibold text-blue-800 flex items-center gap-2">🔧 Liste as funcionalidades essenciais</h3>
+                    <p class="text-blue-700 mt-1">Descreva as principais funcionalidades que a solução deve ter para resolver o problema.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-green-200 bg-green-50/50">
+                    <h3 class="font-semibold text-green-800 flex items-center gap-2">🔄 Descreva os fluxos de trabalho necessários</h3>
+                    <p class="text-green-700 mt-1">Explique os processos e sequências de ações que devem ser automatizados ou facilitados.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-purple-200 bg-purple-50/50">
+                    <h3 class="font-semibold text-purple-800 flex items-center gap-2">🔗 Inclua integrações necessárias com outros sistemas</h3>
+                    <p class="text-purple-700 mt-1">Identifique quais sistemas, APIs ou ferramentas precisam se conectar com a solução.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Dicas para Requisitos Técnicos -->
+    <div id="reqTecnicosModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4">
+        <div class="bg-card w-full max-w-2xl rounded-lg shadow-xl p-6 relative">
+            <button id="closeReqTecnicosModalBtn" class="absolute top-4 right-4 text-muted-foreground hover:text-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-xl font-bold text-card-foreground mb-4">🔧 Como definir requisitos técnicos</h2>
+            <div class="space-y-4 text-sm">
+                <div class="p-4 rounded-md border border-blue-200 bg-blue-50/50">
+                    <h3 class="font-semibold text-blue-800 flex items-center gap-2">🔗 Sistemas que devem ser integrados</h3>
+                    <p class="text-blue-700 mt-1">Liste os sistemas, bancos de dados ou APIs que precisam se conectar com a solução.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-red-200 bg-red-50/50">
+                    <h3 class="font-semibold text-red-800 flex items-center gap-2">💰 Limitações de orçamento (se houver)</h3>
+                    <p class="text-red-700 mt-1">Informe restrições financeiras ou faixas de valores que devem ser respeitadas.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-orange-200 bg-orange-50/50">
+                    <h3 class="font-semibold text-orange-800 flex items-center gap-2">🔒 Restrições de segurança/compliance</h3>
+                    <p class="text-orange-700 mt-1">Mencione normas, certificações ou políticas de segurança que devem ser seguidas.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-purple-200 bg-purple-50/50">
+                    <h3 class="font-semibold text-purple-800 flex items-center gap-2">⚙️ Preferências de tecnologia (se houver)</h3>
+                    <p class="text-purple-700 mt-1">Indique tecnologias, linguagens ou plataformas preferenciais da empresa.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-green-200 bg-green-50/50">
+                    <h3 class="font-semibold text-green-800 flex items-center gap-2">📱 Necessidade de acesso móvel/remoto</h3>
+                    <p class="text-green-700 mt-1">Especifique se a solução deve funcionar em dispositivos móveis ou acesso remoto.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Dicas para Usuários -->
+    <div id="usuariosModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4">
+        <div class="bg-card w-full max-w-2xl rounded-lg shadow-xl p-6 relative">
+            <button id="closeUsuariosModalBtn" class="absolute top-4 right-4 text-muted-foreground hover:text-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-xl font-bold text-card-foreground mb-4">👥 Como identificar usuários e stakeholders</h2>
+            <div class="space-y-4 text-sm">
+                <div class="p-4 rounded-md border border-blue-200 bg-blue-50/50">
+                    <h3 class="font-semibold text-blue-800 flex items-center gap-2">👤 Quem vai usar a solução?</h3>
+                    <p class="text-blue-700 mt-1">Identifique os usuários diretos que irão interagir com a solução no dia a dia.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-green-200 bg-green-50/50">
+                    <h3 class="font-semibold text-green-800 flex items-center gap-2">🔢 Quantos usuários aproximadamente?</h3>
+                    <p class="text-green-700 mt-1">Estime o número de pessoas que utilizarão a solução (5, 50, 500+ usuários).</p>
+                </div>
+                 <div class="p-4 rounded-md border border-purple-200 bg-purple-50/50">
+                    <h3 class="font-semibold text-purple-800 flex items-center gap-2">💻 Perfil técnico dos usuários (básico, intermediário, avançado)</h3>
+                    <p class="text-purple-700 mt-1">Avalie o nível de conhecimento técnico para adequar a interface e complexidade.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-orange-200 bg-orange-50/50">
+                    <h3 class="font-semibold text-orange-800 flex items-center gap-2">✅ Quem são os responsáveis por aprovar a solução?</h3>
+                    <p class="text-orange-700 mt-1">Identifique gestores ou tomadores de decisão que precisam validar a solução.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-red-200 bg-red-50/50">
+                    <h3 class="font-semibold text-red-800 flex items-center gap-2">ℹ️ Quem pode fornecer informações adicionais?</h3>
+                    <p class="text-red-700 mt-1">Liste pessoas-chave que podem esclarecer dúvidas ou fornecer detalhes técnicos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Dicas para Recursos -->
+    <div id="recursosModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4">
+        <div class="bg-card w-full max-w-2xl rounded-lg shadow-xl p-6 relative">
+            <button id="closeRecursosModalBtn" class="absolute top-4 right-4 text-muted-foreground hover:text-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-xl font-bold text-card-foreground mb-4">💰 Como identificar recursos disponíveis</h2>
+            <div class="space-y-4 text-sm">
+                <div class="p-4 rounded-md border border-green-200 bg-green-50/50">
+                    <h3 class="font-semibold text-green-800 flex items-center gap-2">💵 Existe orçamento aprovado? Qual valor?</h3>
+                    <p class="text-green-700 mt-1">Informe se há verba disponível e qual a faixa de valores para investimento.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-blue-200 bg-blue-50/50">
+                    <h3 class="font-semibold text-blue-800 flex items-center gap-2">👥 Há pessoas do seu departamento disponíveis para colaborar?</h3>
+                    <p class="text-blue-700 mt-1">Identifique membros da equipe que podem dedicar tempo ao projeto.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-purple-200 bg-purple-50/50">
+                    <h3 class="font-semibold text-purple-800 flex items-center gap-2">🤝 Existem fornecedores preferenciais?</h3>
+                    <p class="text-purple-700 mt-1">Mencione se há parceiros ou fornecedores que devem ser considerados.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-orange-200 bg-orange-50/50">
+                    <h3 class="font-semibold text-orange-800 flex items-center gap-2">📄 Há documentação/dados disponíveis?</h3>
+                    <p class="text-orange-700 mt-1">Liste materiais, manuais, bases de dados ou documentos que podem ajudar.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Dicas para Impacto -->
+    <div id="impactoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4">
+        <div class="bg-card w-full max-w-2xl rounded-lg shadow-xl p-6 relative">
+            <button id="closeImpactoModalBtn" class="absolute top-4 right-4 text-muted-foreground hover:text-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="text-xl font-bold text-card-foreground mb-4">⚠️ Como avaliar o impacto do não atendimento</h2>
+            <div class="space-y-4 text-sm">
+                <div class="p-4 rounded-md border border-red-200 bg-red-50/50">
+                    <h3 class="font-semibold text-red-800 flex items-center gap-2">❌ O que acontece se esta demanda não for atendida?</h3>
+                    <p class="text-red-700 mt-1">Descreva as consequências diretas da não implementação da solução.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-orange-200 bg-orange-50/50">
+                    <h3 class="font-semibold text-orange-800 flex items-center gap-2">⚠️ Há riscos para o negócio?</h3>
+                    <p class="text-orange-700 mt-1">Identifique riscos operacionais, estratégicos ou de compliance.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-yellow-200 bg-yellow-50/50">
+                    <h3 class="font-semibold text-yellow-800 flex items-center gap-2">💸 Existe impacto financeiro?</h3>
+                    <p class="text-yellow-700 mt-1">Quantifique perdas financeiras, custos extras ou oportunidades perdidas.</p>
+                </div>
+                 <div class="p-4 rounded-md border border-blue-200 bg-blue-50/50">
+                    <h3 class="font-semibold text-blue-800 flex items-center gap-2">🏢 Afeta outros departamentos?</h3>
+                    <p class="text-blue-700 mt-1">Identifique se outros setores serão impactados pela falta da solução.</p>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!-- Hidden form for data collection -->
     <form id="hidden-form" class="hidden">
@@ -432,15 +663,15 @@
             const questions = [
                 { id: 'solicitante', question: 'Olá! Para começar, qual é o seu nome completo?', type: 'text', placeholder: 'Seu nome aqui...' },
                 { id: 'departamento', question: 'E de qual departamento você é?', type: 'text', placeholder: 'Ex: Vendas, Marketing...' },
+                { id: 'contexto', question: 'Descreva a sua dor atual, para pensarmos juntos em uma solução:', type: 'textarea', placeholder: 'Clique no ícone de informação ao lado para ver dicas de como responder esta pergunta.', hasInfo: true },
+                { id: 'objetivo', question: 'O que você espera alcançar com a solução e como medirá o sucesso?', type: 'textarea', placeholder: 'Clique no ícone de informação ao lado para ver dicas de como responder esta pergunta.', hasInfo: true },
+                { id: 'reqFuncionais', question: 'O que a solução precisa fazer?', type: 'textarea', placeholder: 'Clique no ícone de informação ao lado para ver dicas de como responder esta pergunta.', hasInfo: true },
+                { id: 'reqTecnicos', question: 'Existem requisitos técnicos ou restrições?', type: 'textarea', placeholder: 'Clique no ícone de informação ao lado para ver dicas de como responder esta pergunta.', hasInfo: true },
+                { id: 'usuarios', question: 'Quem são os usuários e as partes interessadas?', type: 'textarea', placeholder: 'Clique no ícone de informação ao lado para ver dicas de como responder esta pergunta.', hasInfo: true },
+                { id: 'recursos', question: 'Quais recursos já estão disponíveis?', type: 'textarea', placeholder: 'Clique no ícone de informação ao lado para ver dicas de como responder esta pergunta.', hasInfo: true },
+                { id: 'impacto', question: 'Qual o impacto se a demanda não for atendida?', type: 'textarea', placeholder: 'Clique no ícone de informação ao lado para ver dicas de como responder esta pergunta.', hasInfo: true },
                 { id: 'prazoDesejado', question: 'Qual o prazo desejado para a conclusão?', type: 'date' },
-                { id: 'prioridade', question: 'Como você classificaria a prioridade desta demanda?', type: 'radio', options: ['Baixa', 'Média', 'Alta', 'Crítica'], hasInfo: true },
-                { id: 'contexto', question: 'Qual é a situação atual e o problema que você enfrenta? (Descreva impacto, frequência, pessoas afetadas)', type: 'textarea', placeholder: 'Ex: Nossa equipe de vendas gasta 3 horas por dia...' },
-                { id: 'objetivo', question: 'O que você espera alcançar com a solução e como medirá o sucesso?', type: 'textarea', placeholder: 'Ex: Automatizar a consolidação de relatórios...' },
-                { id: 'reqFuncionais', question: 'O que a solução precisa fazer? (Liste funcionalidades, fluxos, integrações)', type: 'textarea', placeholder: 'Ex: - Conectar com sistemas X, Y e Z...' },
-                { id: 'reqTecnicos', question: 'Existem requisitos técnicos ou restrições? (Orçamento, segurança, etc)', type: 'textarea' },
-                { id: 'usuarios', question: 'Quem são os usuários e as partes interessadas?', type: 'textarea', placeholder: 'Quem vai usar, quantos, perfil técnico...' },
-                { id: 'recursos', question: 'Quais recursos já estão disponíveis? (Orçamento, pessoas, documentação)', type: 'textarea' },
-                { id: 'impacto', question: 'Para finalizar, qual o impacto se a demanda não for atendida?', type: 'textarea', placeholder: 'Existem riscos para o negócio?' }
+                { id: 'prioridade', question: 'Para finalizar, como você classificaria a prioridade desta demanda?', type: 'radio', options: ['Baixa', 'Média', 'Alta', 'Crítica'], hasInfo: true }
             ];
 
             function scrollToBottom() {
@@ -451,14 +682,23 @@
                 });
             }
 
-            function addBotMessage(message, hasInfo = false) {
+            function addBotMessage(message, hasInfo = false, infoType = 'priority') {
                 const messageEl = document.createElement('div');
                 messageEl.classList.add('flex', 'items-start', 'chat-bubble-bot');
 
                 let infoButtonHTML = '';
                 if (hasInfo) {
+                    let buttonClass = 'priority-info-btn';
+                    if (infoType === 'context') buttonClass = 'context-info-btn';
+                    else if (infoType === 'objetivo') buttonClass = 'objetivo-info-btn';
+                    else if (infoType === 'reqFuncionais') buttonClass = 'reqFuncionais-info-btn';
+                    else if (infoType === 'reqTecnicos') buttonClass = 'reqTecnicos-info-btn';
+                    else if (infoType === 'usuarios') buttonClass = 'usuarios-info-btn';
+                    else if (infoType === 'recursos') buttonClass = 'recursos-info-btn';
+                    else if (infoType === 'impacto') buttonClass = 'impacto-info-btn';
+                    
                     infoButtonHTML = `
-                        <button type="button" class="priority-info-btn text-muted-foreground hover:text-primary ml-2 flex-shrink-0">
+                        <button type="button" class="${buttonClass} text-muted-foreground hover:text-primary ml-2 flex-shrink-0">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                               <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                             </svg>
@@ -511,7 +751,26 @@
                 }
                 
                 const step = questions[currentStep];
-                addBotMessage(step.question, step.hasInfo);
+                let infoType = 'priority';
+                if (step.id === 'contexto') infoType = 'context';
+                else if (step.id === 'objetivo') infoType = 'objetivo';
+                else if (step.id === 'reqFuncionais') infoType = 'reqFuncionais';
+                else if (step.id === 'reqTecnicos') infoType = 'reqTecnicos';
+                else if (step.id === 'usuarios') infoType = 'usuarios';
+                else if (step.id === 'recursos') infoType = 'recursos';
+                else if (step.id === 'impacto') infoType = 'impacto';
+                
+                // Personaliza a pergunta do departamento com o nome do usuário
+                let questionText = step.question;
+                if (step.id === 'departamento') {
+                    const nomeUsuario = hiddenForm.elements['solicitante'].value;
+                    if (nomeUsuario) {
+                        const primeiroNome = nomeUsuario.split(' ')[0];
+                        questionText = `E você, ${primeiroNome}, é de qual departamento?`;
+                    }
+                }
+                
+                addBotMessage(questionText, step.hasInfo, infoType);
                 inputContainer.innerHTML = '';
                 
                 let inputEl;
@@ -725,12 +984,69 @@
                 window.location.href = mailtoLink;
             });
 
-            // Lógica do Modal
+            // Lógica dos Modais
+            const contextModal = document.getElementById('contextModal');
+            const closeContextModalBtn = document.getElementById('closeContextModalBtn');
+            const objetivoModal = document.getElementById('objetivoModal');
+            const closeObjetivoModalBtn = document.getElementById('closeObjetivoModalBtn');
+            const reqFuncionaisModal = document.getElementById('reqFuncionaisModal');
+            const closeReqFuncionaisModalBtn = document.getElementById('closeReqFuncionaisModalBtn');
+            const reqTecnicosModal = document.getElementById('reqTecnicosModal');
+            const closeReqTecnicosModalBtn = document.getElementById('closeReqTecnicosModalBtn');
+            const usuariosModal = document.getElementById('usuariosModal');
+            const closeUsuariosModalBtn = document.getElementById('closeUsuariosModalBtn');
+            const recursosModal = document.getElementById('recursosModal');
+            const closeRecursosModalBtn = document.getElementById('closeRecursosModalBtn');
+            const impactoModal = document.getElementById('impactoModal');
+            const closeImpactoModalBtn = document.getElementById('closeImpactoModalBtn');
+
             chatContainer.addEventListener('click', (e) => {
                 const infoBtn = e.target.closest('.priority-info-btn');
                 if (infoBtn) {
                     priorityModal.classList.remove('hidden');
                     priorityModal.classList.add('flex');
+                }
+
+                const contextInfoBtn = e.target.closest('.context-info-btn');
+                if (contextInfoBtn) {
+                    contextModal.classList.remove('hidden');
+                    contextModal.classList.add('flex');
+                }
+
+                const objetivoInfoBtn = e.target.closest('.objetivo-info-btn');
+                if (objetivoInfoBtn) {
+                    objetivoModal.classList.remove('hidden');
+                    objetivoModal.classList.add('flex');
+                }
+
+                const reqFuncionaisInfoBtn = e.target.closest('.reqFuncionais-info-btn');
+                if (reqFuncionaisInfoBtn) {
+                    reqFuncionaisModal.classList.remove('hidden');
+                    reqFuncionaisModal.classList.add('flex');
+                }
+
+                const reqTecnicosInfoBtn = e.target.closest('.reqTecnicos-info-btn');
+                if (reqTecnicosInfoBtn) {
+                    reqTecnicosModal.classList.remove('hidden');
+                    reqTecnicosModal.classList.add('flex');
+                }
+
+                const usuariosInfoBtn = e.target.closest('.usuarios-info-btn');
+                if (usuariosInfoBtn) {
+                    usuariosModal.classList.remove('hidden');
+                    usuariosModal.classList.add('flex');
+                }
+
+                const recursosInfoBtn = e.target.closest('.recursos-info-btn');
+                if (recursosInfoBtn) {
+                    recursosModal.classList.remove('hidden');
+                    recursosModal.classList.add('flex');
+                }
+
+                const impactoInfoBtn = e.target.closest('.impacto-info-btn');
+                if (impactoInfoBtn) {
+                    impactoModal.classList.remove('hidden');
+                    impactoModal.classList.add('flex');
                 }
             });
             
@@ -739,10 +1055,94 @@
                 priorityModal.classList.remove('flex');
             });
 
+            closeContextModalBtn.addEventListener('click', () => {
+                contextModal.classList.add('hidden');
+                contextModal.classList.remove('flex');
+            });
+
+            closeObjetivoModalBtn.addEventListener('click', () => {
+                objetivoModal.classList.add('hidden');
+                objetivoModal.classList.remove('flex');
+            });
+
+            closeReqFuncionaisModalBtn.addEventListener('click', () => {
+                reqFuncionaisModal.classList.add('hidden');
+                reqFuncionaisModal.classList.remove('flex');
+            });
+
+            closeReqTecnicosModalBtn.addEventListener('click', () => {
+                reqTecnicosModal.classList.add('hidden');
+                reqTecnicosModal.classList.remove('flex');
+            });
+
+            closeUsuariosModalBtn.addEventListener('click', () => {
+                usuariosModal.classList.add('hidden');
+                usuariosModal.classList.remove('flex');
+            });
+
+            closeRecursosModalBtn.addEventListener('click', () => {
+                recursosModal.classList.add('hidden');
+                recursosModal.classList.remove('flex');
+            });
+
+            closeImpactoModalBtn.addEventListener('click', () => {
+                impactoModal.classList.add('hidden');
+                impactoModal.classList.remove('flex');
+            });
+
             priorityModal.addEventListener('click', (e) => {
                 if (e.target === priorityModal) {
                     priorityModal.classList.add('hidden');
                     priorityModal.classList.remove('flex');
+                }
+            });
+
+            contextModal.addEventListener('click', (e) => {
+                if (e.target === contextModal) {
+                    contextModal.classList.add('hidden');
+                    contextModal.classList.remove('flex');
+                }
+            });
+
+            objetivoModal.addEventListener('click', (e) => {
+                if (e.target === objetivoModal) {
+                    objetivoModal.classList.add('hidden');
+                    objetivoModal.classList.remove('flex');
+                }
+            });
+
+            reqFuncionaisModal.addEventListener('click', (e) => {
+                if (e.target === reqFuncionaisModal) {
+                    reqFuncionaisModal.classList.add('hidden');
+                    reqFuncionaisModal.classList.remove('flex');
+                }
+            });
+
+            reqTecnicosModal.addEventListener('click', (e) => {
+                if (e.target === reqTecnicosModal) {
+                    reqTecnicosModal.classList.add('hidden');
+                    reqTecnicosModal.classList.remove('flex');
+                }
+            });
+
+            usuariosModal.addEventListener('click', (e) => {
+                if (e.target === usuariosModal) {
+                    usuariosModal.classList.add('hidden');
+                    usuariosModal.classList.remove('flex');
+                }
+            });
+
+            recursosModal.addEventListener('click', (e) => {
+                if (e.target === recursosModal) {
+                    recursosModal.classList.add('hidden');
+                    recursosModal.classList.remove('flex');
+                }
+            });
+
+            impactoModal.addEventListener('click', (e) => {
+                if (e.target === impactoModal) {
+                    impactoModal.classList.add('hidden');
+                    impactoModal.classList.remove('flex');
                 }
             });
         });
