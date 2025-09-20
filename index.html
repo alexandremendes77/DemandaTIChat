@@ -35,27 +35,73 @@
             --radius: 0.375rem;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+        
+        html {
+            height: 100vh;
+            overflow: hidden !important;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--background);
             color: var(--foreground);
-            height: 100%;
-            overflow: hidden; /* impede rolagem da página */
+            height: 100vh;
+            overflow: hidden !important;
+            margin: 0;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            overscroll-behavior: none;
         }
+        
         .preview-content {
             white-space: pre-wrap;
             word-wrap: break-word;
         }
-        html {
-            scroll-behavior: smooth;
-        }
-       
-        .chat-container::-webkit-scrollbar {
+        /* Configurações de scroll personalizadas */
+        #chat-container::-webkit-scrollbar {
             width: 6px;
         }
-        .chat-container::-webkit-scrollbar-thumb {
+        #chat-container::-webkit-scrollbar-thumb {
             background-color: var(--border);
             border-radius: 3px;
+        }
+        #chat-container::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+        #chat-container {
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+            scroll-behavior: smooth;
+        }
+        
+        /* Garante que apenas o chat tenha scroll */
+        .overflow-y-auto {
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+        }
+        
+        /* Remove qualquer scroll da página principal */
+        #main-grid, #chat-column, #preview-column {
+            overflow: hidden;
+        }
+        
+        /* Garante altura fixa para containers */
+        .h-full {
+            height: 100% !important;
+        }
+        
+        .flex-1 {
+            flex: 1 1 0% !important;
+        }
+        
+        .min-h-0 {
+            min-height: 0px !important;
         }
         .chat-bubble-bot {
             animation: slideInUp 0.5s ease-out;
@@ -127,28 +173,17 @@
 </head>
 <body class="antialiased">
 
-    <div class="w-full h-full p-4 sm:p-6 lg:p-8 flex justify-center">
-        
-        <!--<header class="text-center mb-12">
-             <div class="inline-block bg-accent text-accent-foreground p-3 rounded-lg mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h4.5M12 3v13.5m3-13.5V12" />
-                </svg>
-            </div>
-           <h1 class="text-3xl sm:text-4xl font-bold text-card-foreground">Formulário de Solicitação de Demandas</h1>
-            <p class="text-muted-foreground mt-2 text-lg">Departamento de Tecnologia e Inovação</p>
-        </header>-->
-
-        <div id="main-grid" class="grid gap-8 justify-items-center lg:grid-cols-2 lg:gap-16">
+    <div class="w-full h-screen p-2 sm:p-4 flex justify-center overflow-hidden">
+        <div id="main-grid" class="grid gap-8 justify-items-center lg:grid-cols-2 lg:gap-16 h-full w-full max-w-7xl overflow-hidden">
             
             <!-- Coluna do Formulário -->
-            <div id="chat-column" class="mb-10 lg:mb-0 w-full max-w-4xl h-full flex flex-col">
-                <h2 class="text-2xl font-semibold mb-6 pb-3 text-card-foreground flex items-center gap-3">
+            <div id="chat-column" class="w-full max-w-4xl h-full flex flex-col overflow-hidden">
+                <h2 class="text-2xl font-semibold mb-6 pb-3 text-card-foreground flex items-center gap-3 flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7 text-primary"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.455.09-.934.09-1.425v-2.288a4.5 4.5 0 0 1 .64-2.288Z" /></svg>
                     Preencha sua Solicitação
                 </h2>
-                <div class="bg-card p-4 sm:p-6 rounded-lg border border-border shadow-sm h-full flex flex-col">
-                    <div id="chat-container" class="pr-2 space-y-4 overflow-y-auto flex-1">
+                <div class="bg-card p-4 sm:p-6 rounded-lg border border-border shadow-sm flex-1 flex flex-col overflow-hidden">
+                    <div id="chat-container" class="pr-2 space-y-4 overflow-y-auto flex-1 min-h-0 max-h-full">
                         <!-- Chat messages will be appended here -->
                     </div>
                     <div id="typing-indicator" class="hidden flex items-center p-2">
@@ -163,19 +198,20 @@
                             </div>
                         </div>
                     </div>
-                     <div id="input-container" class="mt-4 pt-4 border-t border-border">
+                     <div id="input-container" class="mt-4 pt-4 border-t border-border flex-shrink-0">
                         <!-- Input fields will be appended here -->
                     </div>
                 </div>
             </div>
 
             <!-- Coluna do Preview -->
-            <div id="preview-column" class="hidden w-full max-w-4xl">
-                 <h2 class="text-2xl font-semibold mb-6 pb-3 text-card-foreground flex items-center gap-3">
+            <div id="preview-column" class="hidden w-full max-w-4xl h-full flex flex-col overflow-hidden">
+                 <h2 class="text-2xl font-semibold mb-6 pb-3 text-card-foreground flex items-center gap-3 flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7 text-primary"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0A2.25 2.25 0 013.75 7.5h16.5a2.25 2.25 0 012.25 2.25m-18.75 0h18.75v-1.5A2.25 2.25 0 0019.5 6h-15A2.25 2.25 0 002.25 8.25v1.5z" /></svg>
                     Preview da Solicitação
                 </h2>
-                 <div class="bg-card p-6 rounded-lg border border-border shadow-sm">
+                 <div class="bg-card p-6 rounded-lg border border-border shadow-sm flex-1 flex flex-col overflow-hidden">
+                    <div class="overflow-y-auto flex-1">
                     <div id="previewContent" class="space-y-6">
                         <div>
                             <h3 class="text-md font-semibold text-primary">1. Identificação da Demanda</h3>
@@ -216,7 +252,8 @@
                             <p id="previewImpacto" class="mt-2 text-sm pl-3 border-l-2 border-border preview-content text-foreground"></p>
                         </div>
                     </div>
-                     <button id="sendEmailButton" class="w-full mt-8 bg-primary text-primary-foreground font-semibold py-2 px-4 rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-opacity flex items-center justify-center gap-2">
+                    </div>
+                     <button id="sendEmailButton" class="w-full mt-6 bg-primary text-primary-foreground font-semibold py-2 px-4 rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-opacity flex items-center justify-center gap-2 flex-shrink-0">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
                         </svg>
@@ -313,6 +350,10 @@
 
             function scrollToBottom() {
                 chatContainer.scrollTop = chatContainer.scrollHeight;
+                // Força o scroll em caso de layouts dinâmicos
+                requestAnimationFrame(() => {
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                });
             }
 
             function addBotMessage(message, hasInfo = false) {
@@ -340,7 +381,10 @@
                     </div>
                 `;
                 chatContainer.appendChild(messageEl);
-                setTimeout(scrollToBottom, 10);
+                // Garante que o scroll aconteça após o elemento ser totalmente renderizado
+                requestAnimationFrame(() => {
+                    setTimeout(scrollToBottom, 50);
+                });
             }
 
             function addUserMessage(message) {
@@ -352,7 +396,10 @@
                     </div>
                 `;
                 chatContainer.appendChild(messageEl);
-                setTimeout(scrollToBottom, 10);
+                // Garante que o scroll aconteça após o elemento ser totalmente renderizado
+                requestAnimationFrame(() => {
+                    setTimeout(scrollToBottom, 50);
+                });
             }
 
             function askQuestion() {
@@ -411,6 +458,13 @@
                     inputEl.className = 'mt-1 block w-full rounded-md border-input bg-background shadow-sm focus:border-primary focus:ring focus:ring-ring focus:ring-opacity-50';
                     inputEl.placeholder = step.placeholder || '';
                     inputContainer.appendChild(inputEl);
+
+                    const submitBtn = document.createElement('button');
+                    submitBtn.textContent = 'Enviar';
+                    submitBtn.className = 'mt-2 w-full bg-primary text-primary-foreground font-semibold py-2 px-4 rounded-lg shadow-sm hover:opacity-90';
+                    submitBtn.onclick = () => handleAnswer(inputEl.value);
+                    inputContainer.appendChild(submitBtn);
+
                     inputEl.focus();
                     inputEl.onkeydown = (e) => {
                         if (e.key === 'Enter') {
