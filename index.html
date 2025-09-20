@@ -565,6 +565,17 @@
                         inputEl.style.backgroundColor = 'var(--background)';
                         inputEl.style.border = '1px solid var(--border)';
                         inputEl.style.color = 'var(--foreground)';
+                        
+                        // Preenche automaticamente com 15 dias à frente
+                        const today = new Date();
+                        const futureDate = new Date(today);
+                        futureDate.setDate(today.getDate() + 15);
+                        
+                        // Formata a data para o formato YYYY-MM-DD
+                        const year = futureDate.getFullYear();
+                        const month = String(futureDate.getMonth() + 1).padStart(2, '0');
+                        const day = String(futureDate.getDate()).padStart(2, '0');
+                        inputEl.value = `${year}-${month}-${day}`;
                     }
                     
                     inputContainer.appendChild(inputEl);
