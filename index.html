@@ -112,6 +112,7 @@
             
             #chat-container {
                 padding-right: 8px;
+                max-height: calc(100vh - 280px) !important; /* Limita altura para deixar espaço para input */
             }
             
             .space-y-4 > * + * {
@@ -126,6 +127,30 @@
             /* Ajusta altura mínima do textarea em mobile */
             textarea {
                 min-height: 80px !important;
+            }
+            
+            /* Garante que o input container tenha altura fixa */
+            #input-container {
+                min-height: 120px;
+                max-height: 120px;
+            }
+            
+            /* Ajusta o container principal em mobile */
+            #chat-column .bg-card {
+                max-height: calc(100vh - 120px);
+            }
+            
+            /* Força o botão a sempre ficar visível */
+            #input-container button {
+                position: sticky;
+                bottom: 0;
+                z-index: 10;
+            }
+            
+            /* Ajusta altura do título em mobile */
+            #chat-column h2 {
+                margin-bottom: 8px !important;
+                padding-bottom: 8px !important;
             }
         }
         .chat-bubble-bot {
@@ -199,7 +224,7 @@
 <body class="antialiased">
 
     <div class="w-full h-screen p-1 sm:p-4 flex justify-center overflow-hidden">
-        <div id="main-grid" class="grid gap-4 sm:gap-8 justify-items-center lg:grid-cols-2 lg:gap-16 h-full w-full max-w-7xl overflow-hidden">
+        <div id="main-grid" class="grid gap-2 sm:gap-8 justify-items-center lg:grid-cols-2 lg:gap-16 h-full w-full max-w-7xl overflow-hidden">
             
             <!-- Coluna do Formulário -->
             <div id="chat-column" class="w-full max-w-4xl h-full flex flex-col overflow-hidden">
