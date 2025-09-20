@@ -152,6 +152,51 @@
                 margin-bottom: 8px !important;
                 padding-bottom: 8px !important;
             }
+            
+            /* Garante que inputs de data sejam visíveis no mobile */
+            input[type="date"] {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                background-color: var(--background) !important;
+                border: 1px solid var(--border) !important;
+                padding: 12px !important;
+                font-size: 16px !important; /* Evita zoom no iOS */
+                min-height: 48px !important; /* Altura mínima para touch */
+                width: 100% !important;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+            
+            /* Estilo específico para o seletor de data no mobile */
+            input[type="date"]::-webkit-calendar-picker-indicator {
+                background: transparent;
+                bottom: 0;
+                color: transparent;
+                cursor: pointer;
+                height: auto;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: auto;
+            }
+        }
+        
+        /* Estilos gerais para inputs de data */
+        input[type="date"] {
+            background-color: var(--background);
+            border: 1px solid var(--border);
+            color: var(--foreground);
+            font-family: inherit;
+        }
+        
+        input[type="date"]:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
         }
         .chat-bubble-bot {
             animation: slideInUp 0.5s ease-out;
@@ -507,6 +552,21 @@
                     inputEl.type = step.type;
                     inputEl.className = 'mt-1 block w-full rounded-md border-input bg-background shadow-sm focus:border-primary focus:ring focus:ring-ring focus:ring-opacity-50';
                     inputEl.placeholder = step.placeholder || '';
+                    
+                    // Configurações específicas para campos de data
+                    if (step.type === 'date') {
+                        inputEl.style.minHeight = '48px';
+                        inputEl.style.fontSize = '16px';
+                        inputEl.style.padding = '12px';
+                        inputEl.style.display = 'block';
+                        inputEl.style.width = '100%';
+                        inputEl.style.visibility = 'visible';
+                        inputEl.style.opacity = '1';
+                        inputEl.style.backgroundColor = 'var(--background)';
+                        inputEl.style.border = '1px solid var(--border)';
+                        inputEl.style.color = 'var(--foreground)';
+                    }
+                    
                     inputContainer.appendChild(inputEl);
 
                     const submitBtn = document.createElement('button');
@@ -515,7 +575,11 @@
                     submitBtn.onclick = () => handleAnswer(inputEl.value);
                     inputContainer.appendChild(submitBtn);
 
-                    inputEl.focus();
+                    // Para campos de data, não fazer focus automático no mobile para evitar problemas
+                    if (step.type !== 'date' || window.innerWidth > 640) {
+                        inputEl.focus();
+                    }
+                    
                     inputEl.onkeydown = (e) => {
                         if (e.key === 'Enter') {
                             handleAnswer(e.target.value);
